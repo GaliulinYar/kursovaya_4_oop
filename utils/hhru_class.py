@@ -1,5 +1,7 @@
 import json
 from abc import ABC
+from pprint import pprint
+
 import requests
 from utils.get_hh_info import AbstractJobPlatform
 
@@ -31,7 +33,7 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
         url = 'https://api.hh.ru/vacancies'
         params = {'text': self.keyword,  # Ключевое слово для поиска ваканчий
                   'area': 1,  # Индекс города для поиска 1(Москва)
-                  "per_page": 10  # Кол-во вакансий на странице
+                  "per_page": 1  # Кол-во вакансий на странице
                   }
         headers = {
             "User-Agent": "50355527",  # Replace with your User-Agent header
@@ -45,8 +47,9 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
         # Метод создания словаря вакансий
         if self.connect().status_code == 200:
             data = self.connect().json()
-            jobs = {}
+            list_job = []
             for item in data['items']:
+                id_vacancy = item['id']
                 title = item['name']
                 link = item['alternate_url']
 
@@ -62,20 +65,23 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
                     'snippet'] else None
 
                 jobs = {
+                    'id': id_vacancy,
                     'title': title,
                     'link': link,
                     'salary_min': salary_min,
                     'salary_max': salary_max,
                     'description': description
                 }
-                print(jobs)
-                self.write_file_vacancy(jobs)
-            return jobs
+                list_job.append(jobs)
+            self.write_file_vacancy(list_job)
+            return list_job
 
         else:
             print(f"Request failed with status code: {self.connect().status_code}")
 
     def write_file_vacancy(self, jobs):
-        with open('vacancy_list.json', 'a', encoding='utf-8') as json_file:
-            json.dump(jobs, json_file, ensure_ascii=False)
+        with open('vacancy_list_hhru.json', 'w', encoding='utf-8') as json_file:
+            json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
 
+ads = HHJobPlatform('python')
+pprint(ads.get_jobs())
