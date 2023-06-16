@@ -36,46 +36,50 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
             'Authorization': 'Bearer r.000000010000001.example.access_token',
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        params = {"count": 3, "page": None,
+        params = {"count": 1, "page": None,
                   "keyword": self.keyword, "archive": False, }
-        data = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=params).json()
+        data = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=params)
         return data
 
     def get_jobs(self, **kwargs):
         # Получение вакансий с superjob.ru
-        # if self.connect().status_code != 400:
-        data = self.connect()
-        list_job = []
-        for item in data['objects']:
-            title = item['profession']
-            link = item['link']
+        if self.connect().status_code == 200:
+            data = self.connect().json()
+            list_job = []
+            for item in data['objects']:
+                title = item['profession']
+                link = item['link']
 
-            if item['payment_from']:
-                salary_min = item['payment_from']
-                salary_max = item['payment_to']
+                if item['payment_from']:
+                    salary_min = item['payment_from']
+                    salary_max = item['payment_to']
 
-            else:
-                salary_min = None
-                salary_max = None
+                else:
+                    salary_min = None
+                    salary_max = None
 
-            description = item['candidat']
+                description = item['candidat']
+                id_vacancy = item['id']
 
-            jobs = {
-                'title': title,
-                'link': link,
-                'salary_min': salary_min,
-                'salary_max': salary_max,
-                'description': description
-            }
-            list_job.append(jobs)
-        self.write_file_vacancy(list_job)
-        return list_job
+                jobs = {
+                    'id': id_vacancy,
+                    'title': title,
+                    'link': link,
+                    'salary_min': salary_min,
+                    'salary_max': salary_max,
+                    'description': description
+                }
+                list_job.append(jobs)
+            self.write_file_vacancy(list_job)
+            return list_job
 
     def write_file_vacancy(self, jobs):
-        with open('vacancy_list.json', 'w', encoding='utf-8') as json_file:
+        with open('vacancy_list_sjru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
 
 
-ads = SuperJobPlatform('python')
+ads = SuperJobPlatform('менеджер')
 pprint(ads.get_jobs())
+print(ads.connect())
+
 
