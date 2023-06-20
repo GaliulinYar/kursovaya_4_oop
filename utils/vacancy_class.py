@@ -1,4 +1,3 @@
-
 class Vacancy:
     """Класс создающий экземпляры класса вакансий"""
     all_class_vacancy = []
@@ -37,16 +36,5 @@ class Vacancy:
 
     @classmethod
     def class_vacancy_ex(cls, reader):
-
         for row in reader:
             cls(row['id'], row['title'], row['link'], row['salary_min'], row['salary_max'], row['description'])
-
-    #def get_class(self, list_job):
-    #    self.class_vacancy_ex(list_job)
-
-
-#reyrrukfh = Vacancy(title='Разработчик', link='ссылка тут', salary_min='3', salary_max='5', description='уассвсыуцувсусу', id_vacancy='343545')
-#print(str(reyrrukfh))
-
-
-
