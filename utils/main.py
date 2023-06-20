@@ -5,14 +5,21 @@ def main():
     print('Привет. давай поищем тебе работу')
 
     while True:
-        first_question = input('Где будем искать?\n'
-                               '1 - ХХ ру\n'
-                               '2 - супер джаб\n')
+        while True:
+            first_question = input('Где будем искать?\n'
+                                   '1 - ХХ ру\n'
+                                   '2 - супер джаб\n')
+            if first_question == '1' or first_question == '2':
+                break
+
+            else:
+                print('Не правильно ввел')
+                continue
 
         while True:
             keyword = input('По какому запросу ищем? (например: python)\n')
             if len(keyword.lower()) <= 2:
-                print("Что то совсем коротко?")
+                print("Что то совсем коротко!")
                 continue
             else:
                 break
@@ -20,7 +27,7 @@ def main():
         while True:
             count_vacancy = input('Сколько ваканcий тебе показать?\n')
             if int(count_vacancy) <= 1:
-                print("Что то мало?")
+                print("Что то мало!")
                 continue
             else:
                 break
@@ -28,7 +35,7 @@ def main():
         while True:
             city = input('В каком городе ищем?\n')
             if len(city.lower()) <= 2:
-                print("Что то совсем коротко?")
+                print("Что то совсем коротко!")
                 continue
             else:
                 break
