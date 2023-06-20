@@ -26,7 +26,7 @@ def main():
                 break
 
         while True:  # Цикл для проверки ответа
-            count_vacancy = input('Сколько ваканcий тебе показать?\n')
+            count_vacancy = input('Сколько ваканcий тебе показать? Желательно не более 100\n')
             if int(count_vacancy) <= 1:
                 print("Что то мало!")
                 continue
