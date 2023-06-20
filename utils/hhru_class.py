@@ -6,11 +6,12 @@ from utils.abstract_class import AbstractJobPlatform
 
 
 class HHJobPlatform(AbstractJobPlatform, ABC):
+    """Класс для работы с сайтом хх ру"""
 
     def __init__(self, keyword, count_vacancy):
-        self.count_vacancy = count_vacancy
-        self.keyword = keyword
-        self.salary_min = None
+        self.count_vacancy = count_vacancy  # Кол-во вакансий для поиска, получаем от пользователя
+        self.keyword = keyword  # Ключевое слово для поиска, получаем от пользователя
+        self.salary_min = None  # Минимальная зарплата по умолчанию None
 
     def connect(self, params=None):
         # Реализация подключения к API hh.ru
@@ -20,7 +21,7 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
                   "per_page": self.count_vacancy  # Кол-во вакансий на странице
                   }
         headers = {
-            "User-Agent": "50355527",  # Replace with your User-Agent header
+            "User-Agent": "50355527",  # User-Agent header взятый из личного кабинета хх ру
         }
 
         response = requests.get(url, params=params, headers=headers)
@@ -47,7 +48,7 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
 
                 description = item['snippet']['requirement'] if item['snippet'] and 'requirement' in item[
                     'snippet'] else None
-
+                #  Создание словарей из вакансий
                 jobs = {
                     'id': id_vacancy,
                     'title': title,
@@ -56,13 +57,14 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
                     'salary_max': salary_max,
                     'description': description
                 }
-                list_job.append(jobs)
+                list_job.append(jobs)  # Добавляем словари в список
             self.write_file_vacancy(list_job)
             return list_job
-
+        #  Если нет ответа от сервера (сайта)
         else:
-            print(f"Request failed with status code: {self.connect().status_code}")
+            print(f"Проблема с сетью: {self.connect().status_code}")
 
     def write_file_vacancy(self, jobs):
+        # Метод открытия файла для записи вакансий с сайта хх ру
         with open('vacancy_list_hhru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)

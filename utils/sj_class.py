@@ -6,7 +6,7 @@ from utils.abstract_class import AbstractJobPlatform
 
 
 class SuperJobPlatform(AbstractJobPlatform, ABC):
-
+    """Класс для работы с сайтом суперджоб"""
     def __init__(self, keyword, count_vacancy):
         self.count_vacancy = count_vacancy
         self.keyword = keyword
@@ -44,7 +44,7 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
 
                 description = item['candidat']
                 id_vacancy = item['id']
-
+                #  Создание словарей из вакансий
                 jobs = {
                     'id': id_vacancy,
                     'title': title,
@@ -53,11 +53,14 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
                     'salary_max': salary_max,
                     'description': description
                 }
-                list_job.append(jobs)
-
+                list_job.append(jobs)  #  Добавляем словари в список
             self.write_file_vacancy(list_job)
             return list_job
+        #  Если нет ответа от сервера (сайта)
+        else:
+            print(f"Проблема с сетью: {self.connect().status_code}")
 
     def write_file_vacancy(self, jobs):
+        # Метод открытия файла для записи вакансий с сайта суперджоб
         with open('vacancy_list_sjru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
