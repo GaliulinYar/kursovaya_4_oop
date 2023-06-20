@@ -1,9 +1,8 @@
 import json
 from abc import ABC
-from pprint import pprint
 
 import requests
-from utils.get_hh_info import AbstractJobPlatform
+from utils.abstract_class import AbstractJobPlatform
 
 
 class HHJobPlatform(AbstractJobPlatform, ABC):
@@ -18,7 +17,7 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
 
         url = 'https://api.hh.ru/vacancies'
         params = {'text': self.keyword,  # Ключевое слово для поиска ваканчий
-                  "per_page": self.count_vacancy # Кол-во вакансий на странице
+                  "per_page": self.count_vacancy  # Кол-во вакансий на странице
                   }
         headers = {
             "User-Agent": "50355527",  # Replace with your User-Agent header
@@ -67,6 +66,3 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
     def write_file_vacancy(self, jobs):
         with open('vacancy_list_hhru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
-
-#ads = HHJobPlatform('python')
-#pprint(ads.get_jobs())
