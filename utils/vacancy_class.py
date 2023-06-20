@@ -1,6 +1,6 @@
 class Vacancy:
     """Класс создающий экземпляры класса вакансий"""
-    all_class_vacancy = []
+    all_class_vacancy = []  # список экземпляров класса, изначально пустой
 
     def __init__(self, id_vacancy, title, link, salary_min, salary_max, description):
         self.id = id_vacancy
@@ -36,5 +36,6 @@ class Vacancy:
 
     @classmethod
     def class_vacancy_ex(cls, reader):
+        """Метод для создания экземпляров класса"""
         for row in reader:
             cls(row['id'], row['title'], row['link'], row['salary_min'], row['salary_max'], row['description'])
