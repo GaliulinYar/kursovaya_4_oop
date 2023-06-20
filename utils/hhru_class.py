@@ -1,39 +1,23 @@
 import json
 from abc import ABC
-from pprint import pprint
 
 import requests
-from utils.get_hh_info import AbstractJobPlatform
+from utils.abstract_class import AbstractJobPlatform
 
 
 class HHJobPlatform(AbstractJobPlatform, ABC):
 
-    def __init__(self, keyword):
+    def __init__(self, keyword, count_vacancy):
+        self.count_vacancy = count_vacancy
         self.keyword = keyword
         self.salary_min = None
-
-    def __gt__(self, other):
-        return int(self.salary_min) > int(other.salary_min)
-
-    def __ge__(self, other):
-        return int(self.salary_min) >= int(other.salary_min)
-
-    def __lt__(self, other):
-        return int(self.salary_min) < int(other.salary_min)
-
-    def __le__(self, other):
-        return int(self.salary_min) <= int(other.salary_min)
-
-    def __eq__(self, other):
-        return int(self.salary_min) == int(other.salary_min)
 
     def connect(self, params=None):
         # Реализация подключения к API hh.ru
 
         url = 'https://api.hh.ru/vacancies'
         params = {'text': self.keyword,  # Ключевое слово для поиска ваканчий
-                  'area': 1,  # Индекс города для поиска 1(Москва)
-                  "per_page": 1  # Кол-во вакансий на странице
+                  "per_page": self.count_vacancy  # Кол-во вакансий на странице
                   }
         headers = {
             "User-Agent": "50355527",  # Replace with your User-Agent header
@@ -58,8 +42,8 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
                     salary_max = item['salary']['to']
 
                 else:
-                    salary_min = None
-                    salary_max = None
+                    salary_min = 'Не указана'
+                    salary_max = 'Не указана'
 
                 description = item['snippet']['requirement'] if item['snippet'] and 'requirement' in item[
                     'snippet'] else None
@@ -82,6 +66,3 @@ class HHJobPlatform(AbstractJobPlatform, ABC):
     def write_file_vacancy(self, jobs):
         with open('vacancy_list_hhru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
-
-ads = HHJobPlatform('python')
-pprint(ads.get_jobs())
