@@ -1,10 +1,8 @@
 import json
-import os
 from abc import ABC
-from pprint import pprint
 
 import requests
-from utils.get_hh_info import AbstractJobPlatform
+from utils.abstract_class import AbstractJobPlatform
 
 
 class SuperJobPlatform(AbstractJobPlatform, ABC):
@@ -63,10 +61,3 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
     def write_file_vacancy(self, jobs):
         with open('vacancy_list_sjru.json', 'w', encoding='utf-8') as json_file:
             json.dump(jobs, json_file, sort_keys=False, indent=4, ensure_ascii=False)
-
-
-#ads = SuperJobPlatform('менеджер',4)
-#pprint(ads.get_jobs())
-#print(ads.connect())
-
-
