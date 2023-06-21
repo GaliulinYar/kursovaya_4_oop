@@ -27,11 +27,16 @@ def main():
 
         while True:  # Цикл для проверки ответа
             count_vacancy = input('Сколько ваканcий тебе показать? Желательно не более 100\n')
-            if int(count_vacancy) <= 1:
-                print("Что то мало!")
+            try:
+                if int(count_vacancy) > 1:
+                    break
+                else:
+                    print("Что то мало!")
                 continue
-            else:
-                break
+
+            except ValueError:
+                print("Вы ниччего не вводите")
+                continue
 
         while True:  # Цикл для проверки ответа
             city = input('В каком городе ищем?\n')
