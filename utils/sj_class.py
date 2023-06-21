@@ -1,4 +1,5 @@
 import json
+import os
 from abc import ABC
 
 import requests
@@ -16,7 +17,7 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
         # Реализация подключения к API superjob.ru
         headers = {
             'Host': 'api.superjob.ru',
-            'X-Api-App-Id': 'v3.r.137618444.385d7dc2eee888ae32ad9fd4abc78ec6b3bf2792.4c3254ad9c1a28cb15b369f8ddae8d4e8b31cc24',
+            'X-Api-App-Id': os.getenv('API_KEY'),
             'Authorization': 'Bearer r.000000010000001.example.access_token',
             'Content-Type': 'application/x-www-form-urlencoded'
         }
@@ -53,7 +54,7 @@ class SuperJobPlatform(AbstractJobPlatform, ABC):
                     'salary_max': salary_max,
                     'description': description
                 }
-                list_job.append(jobs)  #  Добавляем словари в список
+                list_job.append(jobs)  # Добавляем словари в список
             self.write_file_vacancy(list_job)
             return list_job
         #  Если нет ответа от сервера (сайта)
