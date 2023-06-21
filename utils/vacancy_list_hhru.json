@@ -8,11 +8,19 @@
         "description": "Высшее образование либо курсы переквалификации Яндекс Практикум по части ООП языков(C ++/#, <highlighttext>Java</highlighttext>). Знание языков программирования с/с#..."
     },
     {
-        "id": "82019232",
-        "title": "Специалист по мобильной автоматизации",
-        "link": "https://hh.ru/vacancy/82019232",
-        "salary_min": 25000,
-        "salary_max": 90000,
-        "description": "Среднее(профильное), высшее или неоконченное высшее техническое образование. Базовые навыки программирования (приветствуются Visual Basic, C#, <highlighttext>Java</highlighttext> или 1С)."
+        "id": "82236088",
+        "title": "Junior Java Разработчик (Департамент \"Операционная Деятельность\")",
+        "link": "https://hh.ru/vacancy/82236088",
+        "salary_min": "Не указана",
+        "salary_max": "Не указана",
+        "description": "Опыт разработки на <highlighttext>Java</highlighttext> – <highlighttext>Java</highlighttext> Core. Опыт практической разработки на <highlighttext>Java</highlighttext> от 1 года с применение библиотек\\фрэймворков для работы..."
+    },
+    {
+        "id": "81363237",
+        "title": "Программист/разработчик (Python/Java)",
+        "link": "https://hh.ru/vacancy/81363237",
+        "salary_min": "Не указана",
+        "salary_max": "Не указана",
+        "description": "Что будешь делать: Программировать на Python или <highlighttext>Java</highlighttext>."
     }
 ]
