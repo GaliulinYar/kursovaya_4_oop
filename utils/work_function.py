@@ -10,7 +10,7 @@ def hh_function(keyword, count_vacancy):
     get_list = HHJobPlatform(keyword, count_vacancy)  # Создаем экземпляр класса с параметрами пользователя
     list_job = get_list.get_jobs()  # Получаем список вакансий из класса
     print(f'Нашлось {len(list_job)} вакансий.')
-
+    Vacancy.all_class_vacancy = []
     Vacancy.class_vacancy_ex(list_job)
     for item in Vacancy.all_class_vacancy:  # Перебираем и выводим список
         print(str(item))
@@ -22,6 +22,7 @@ def sj_function(keyword, count_vacancy):
     get_list = SuperJobPlatform(keyword, count_vacancy)  # Создаем экземпляр класса с параметрами пользователя
     list_job = get_list.get_jobs()  # Получаем список вакансий из класса
     print(f'Нашлось {len(list_job)} вакансий!')
+    Vacancy.all_class_vacancy = []
     Vacancy.class_vacancy_ex(list_job)
     for item in Vacancy.all_class_vacancy:  # Перебираем и выводим список
         print(str(item))
